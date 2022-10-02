@@ -4,7 +4,8 @@
 
     <div class="container">
         {% from "_formhelpers.html" import render_field %}
-        <div class="text-center h1 text-center">Register</div>
+        <div class="text-center h1 text-white bg-primary p-2">Register</div>
+        {% include '_messages.html' %}
 
         <form method="post" enctype="multipart/form-data">
             <div>
@@ -16,8 +17,9 @@
 
                 <input type="file" name="photo">
             </div>
-
-            <p><input type=submit value="Register" class="btn btn-info mt-2"></p>
+            <p>
+                <input type=submit value="Register" class="btn btn-info mt-2">
+            </p>
         </form>
     </div>
 
