@@ -1,6 +1,14 @@
 from flask import redirect, render_template, url_for, flash, request
 from shop.__init__ import db, app
 from shop.products.models import Brand, Category
+from shop.products.forms import Addproducts
+
+
+@app.route('/addproduct', methods=['GET', 'POST'])
+def addproduct():
+    form = Addproducts(request.form)
+
+    return render_template('products/addproduct.html', title="Add product page", form=form)
 
 
 @app.route('/addbrand', methods=['GET', 'POST'])
