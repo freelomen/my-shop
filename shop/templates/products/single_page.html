@@ -42,6 +42,11 @@
                             {% endfor %}
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1">
+                            Корзина ({{ session['Shoppingcart']|length }})
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -59,13 +64,31 @@
                 {% if product.discount > 0 %}
                     <p>Скидка: {{product.discount}}%</p>
                 {% endif %}
+                <hr>
                 <p>Описание:</p>
                 <p>{{product.description}}</p>
-                <button type="" class="btn btn-sm btn-warning">Добавить в корзину</button>
+                <hr>
+                <form action="{{url_for('AddCart')}}" method="POST">
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <button type="submit" class="btn btn-sm btn-warning">Купить</button>
+
+                    <label for="">Количество: </label>
+                    <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+
+                    {% set colors = product.color.split(',') %}
+                    <label for="">Цвет: </label>
+                    <select name="colors" id="">
+                        {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                        {% endfor %}
+                    </select>
+                </form>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 mt-2" id="small_image">
+                <hr>
                 <img src="{{url_for('static',filename='images/'+ product.image_1)}}" alt="{{product.name}}" width="120" height="120">
                 <img src="{{url_for('static',filename='images/'+ product.image_2)}}" alt="{{product.name}}" width="120" height="120" class="ml-2">
                 <img src="{{url_for('static',filename='images/'+ product.image_3)}}" alt="{{product.name}}" width="120" height="120" class="ml-2">
