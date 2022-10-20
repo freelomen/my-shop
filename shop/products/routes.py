@@ -1,4 +1,4 @@
-from flask import redirect, session, render_template, url_for, flash, request
+from flask import redirect, session, render_template, url_for, flash, request, current_app
 from shop.__init__ import db, app, photos
 from shop.products.models import Brand, Category, Addproduct
 from shop.products.forms import Addproducts
@@ -39,6 +39,64 @@ def addproduct():
         return redirect(url_for('admin'))
 
     return render_template('products/addproduct.html', form=form, title="Add product page",
+                           brands=brands, categories=categories)
+
+
+@app.route('/updateproduct/<int:id>', methods=['GET','POST'])
+def updateproduct(id):
+    brands = Brand.query.all()
+    categories = Category.query.all()
+    product = Addproduct.query.get_or_404(id)
+    form = Addproducts(request.form)
+
+    brand = request.form.get('brand')
+    category = request.form.get('category')
+
+    if request.method == "POST":
+        product.name = form.name.data
+        product.price = form.price.data
+        product.discount = form.discount.data
+        product.brand_id = brand
+        product.category_id = category
+        product.stock = form.stock.data
+        product.color = form.color.data
+        product.description = form.description.data
+    #
+    #     if request.files.get('image_1'):
+    #         try:
+    #             os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_1))
+    #             product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10) + ".")
+    #         except:
+    #             product.image_1 = photos.save(request.files.get('image_1'), name=secrets.token_hex(10) + ".")
+    #     if request.files.get('image_2'):
+    #         try:
+    #             os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_2))
+    #             product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10) + ".")
+    #         except:
+    #             product.image_2 = photos.save(request.files.get('image_2'), name=secrets.token_hex(10) + ".")
+    #     if request.files.get('image_3'):
+    #         try:
+    #             os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_3))
+    #             product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10) + ".")
+    #         except:
+    #             product.image_3 = photos.save(request.files.get('image_3'), name=secrets.token_hex(10) + ".")
+
+        flash('The product was updated', 'success')
+        db.session.commit()
+
+        return redirect(url_for('admin'))
+
+    form.name.data = product.name
+    form.price.data = product.price
+    form.discount.data = product.discount
+    form.stock.data = product.stock
+    form.color.data = product.color
+    form.description.data = product.description
+
+    # brand = product.brand.name
+    # category = product.category.name
+
+    return render_template('products/updateproduct.html', form=form, title='Update Product', product=product,
                            brands=brands, categories=categories)
 
 
