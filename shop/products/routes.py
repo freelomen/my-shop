@@ -11,8 +11,17 @@ from shop.products.models import Brand, Category, Addproduct
 @app.route('/')
 def home():
     products = Addproduct.query.filter(Addproduct.stock > 0)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
 
-    return render_template('products/index.html', title="Home page", products=products)
+    return render_template('products/index.html', title="Home page", products=products, brands=brands)
+
+
+@app.route('/brand/<int:id>')
+def get_brand(id):
+    brand = Addproduct.query.filter_by(brand_id=id)
+    brands = Brand.query.join(Addproduct, (Brand.id == Addproduct.brand_id)).all()
+
+    return render_template('products/index.html', title="Home page", brand=brand, brands=brands)
 
 
 @app.route('/addproduct', methods=['GET', 'POST'])
