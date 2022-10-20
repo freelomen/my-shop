@@ -1,4 +1,5 @@
 from flask import render_template, session, request, redirect, url_for, flash
+
 from shop.__init__ import app, db, bcrypt
 from shop.admin.forms import RegistrationForm, LoginForm
 from shop.admin.models import User
@@ -35,7 +36,7 @@ def categories():
 
     categories = Category.query.order_by(Category.id.desc()).all()
 
-    return render_template('admin/brand.html', title="Brand page", categories=categories)
+    return render_template('admin/brand.html', title="Categories page", categories=categories)
 
 
 @app.route('/register', methods=['GET', 'POST'])
