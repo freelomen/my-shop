@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<!--begin navbar-->
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">Home</a>
@@ -45,6 +46,7 @@
             </div>
         </nav>
     </div>
+<!--end navbar-->
     <div class="container">
         <div class="row">
             {% if brand %}
@@ -64,7 +66,10 @@
                                 <p class="text-center">Цена {{item.price}} р</p>
                             </div>
                             <div class="card-footer">
-                                <a href="#" class="float-left btn btn-sm btn-primary">Подробнее</a>
+                                <a href="{{url_for('single_page', id=item.id)}}"
+                                   class="float-left btn btn-sm btn-primary">
+                                    Подробнее
+                                </a>
                                 <a href="#" class="float-right btn btn-sm btn-warning">В корзину</a>
                             </div>
                         </div>
@@ -120,7 +125,10 @@
                                 <p class="text-center">Цена {{item.price}} р</p>
                             </div>
                             <div class="card-footer">
-                                <a href="#" class="float-left btn btn-sm btn-primary">Подробнее</a>
+                                <a href="{{url_for('single_page', id=item.id)}}"
+                                   class="float-left btn btn-sm btn-primary">
+                                    Подробнее
+                                </a>
                                 <a href="#" class="float-right btn btn-sm btn-warning">В корзину</a>
                             </div>
                         </div>
@@ -176,7 +184,10 @@
                                 <p class="text-center">Цена {{product.price}} р</p>
                             </div>
                             <div class="card-footer">
-                                <a href="#" class="float-left btn btn-sm btn-primary">Подробнее</a>
+                                <a href="{{url_for('single_page', id=product.id)}}"
+                                   class="float-left btn btn-sm btn-primary">
+                                    Подробнее
+                                </a>
                                 <a href="#" class="float-right btn btn-sm btn-warning">В корзину</a>
                             </div>
                         </div>
