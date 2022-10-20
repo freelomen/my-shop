@@ -38,29 +38,30 @@
         <table class="table table-sm table-striped table-hover">
             <thead>
                 <th>Sr</th>
-                <th>Image</th>
                 <th>Name</th>
-                <th>Price</th>
-                <th>Discount</th>
-                <th>Brand</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </thead>
             <tbody>
-                {% for product in products %}
-                    <tr>
-                        <td>{{loop.index}}</td>
-                        <td>
-                            <img src="{{url_for('static',filename='images/' + product.image_1)}}" alt="{{product.name}}" width="50" height="50">
-                        </td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.price }}</td>
-                        <td>{{ product.discount }}%</td>
-                        <td>{{ product.brand.name}}</td>
-                        <td><a href="" class="btn btn-outline-info btn-sm">Edit</a></td>
-                        <td><a href="" class="btn btn-outline-danger btn-sm">Delete</a></td>
-                    </tr>
-                {% endfor %}
+                {% if brands %}
+                    {% for brand in brands %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ brand.name }}</td>
+                            <td><a href="" class="btn btn-outline-info btn-sm">Edit</a></td>
+                            <td><a href="" class="btn btn-outline-danger btn-sm">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ category.name }}</td>
+                            <td><a href="" class="btn btn-outline-info btn-sm">Edit</a></td>
+                            <td><a href="" class="btn btn-outline-danger btn-sm">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
