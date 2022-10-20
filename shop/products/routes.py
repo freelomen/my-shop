@@ -99,6 +99,31 @@ def updateproduct(id):
                            brands=brands, categories=categories)
 
 
+@app.route('/deleteproduct/<int:id>', methods=['POST'])
+def deleteproduct(id):
+    if 'email' not in session:
+        flash(f'Please login first!', 'danger')
+        return redirect(url_for('login'))
+
+    product = Addproduct.query.get_or_404(id)
+    if request.method == "POST":
+        try:
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_1))
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_2))
+            os.unlink(os.path.join(current_app.root_path, "static/images/" + product.image_3))
+
+            db.session.delete(product)
+            db.session.commit()
+
+            flash(f'The product {product.name} was delete from your record', 'success')
+            return redirect(url_for('admin'))
+        except Exception as e:
+            print(e)
+
+            flash(f'Can not delete the product', 'warning')
+            return redirect(url_for('admin'))
+
+
 @app.route('/addbrand', methods=['GET', 'POST'])
 def addbrand():
     if 'email' not in session:
