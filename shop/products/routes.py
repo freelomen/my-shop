@@ -8,6 +8,13 @@ from shop.products.forms import Addproducts
 from shop.products.models import Brand, Category, Addproduct
 
 
+@app.route('/')
+def home():
+    products = Addproduct.query.filter(Addproduct.stock > 0)
+
+    return render_template('products/index.html', title="Home page", products=products)
+
+
 @app.route('/addproduct', methods=['GET', 'POST'])
 def addproduct():
     if 'email' not in session:
