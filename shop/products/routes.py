@@ -3,6 +3,7 @@ from shop.__init__ import db, app, photos
 from shop.products.models import Brand, Category, Addproduct
 from shop.products.forms import Addproducts
 import secrets
+import os
 
 
 @app.route('/addproduct', methods=['GET', 'POST'])
@@ -59,6 +60,24 @@ def addbrand():
     return render_template('products/addbrand.html', brands='brands')
 
 
+@app.route('/updatebrand/<int:id>', methods=['GET', 'POST'])
+def updatebrand(id):
+    if 'email' not in session:
+        flash(f'Please login first!', 'danger')
+        return redirect(url_for('login'))
+
+    updatebrand = Brand.query.get_or_404(id)
+    brand = request.form.get('brand')
+
+    if request.method == "POST":
+        flash(f'The brand {updatebrand.name} was changed to {brand}', 'success')
+        updatebrand.name = brand
+        db.session.commit()
+        return redirect(url_for('brands'))
+
+    return render_template('products/updatebrand.html', title='Update brand', updatebrand=updatebrand)
+
+
 @app.route('/addcategory', methods=['GET', 'POST'])
 def addcategory():
     if 'email' not in session:
@@ -75,3 +94,21 @@ def addcategory():
         return redirect(url_for('addcategory'))
 
     return render_template('products/addbrand.html')
+
+
+@app.route('/updatecategory/<int:id>', methods=['GET', 'POST'])
+def updatecategory(id):
+    if 'email' not in session:
+        flash(f'Please login first!', 'danger')
+        return redirect(url_for('login'))
+
+    updatecategory = Category.query.get_or_404(id)
+    category = request.form.get('category')
+
+    if request.method == "POST":
+        flash(f'The category {updatecategory.name} was changed to {category}', 'success')
+        updatecategory.name = category
+        db.session.commit()
+        return redirect(url_for('categories'))
+
+    return render_template('products/updatebrand.html', title='Update category', updatecategory=updatecategory)
