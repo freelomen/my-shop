@@ -31,11 +31,10 @@ def AddCart():
             if 'Shoppingcart' in session:
                 print(session['Shoppingcart'])
                 if product_id in session['Shoppingcart']:
-                    print("Этот продукт уже есть в корзине")
-        #             # for key, item in session['Shoppingcart'].items():
-        #             #     if int(key) == int(product_id):
-        #             #         session.modified = True
-        #             #         item['quantity'] += 1
+                    for key, item in session['Shoppingcart'].items():
+                        if int(key) == int(product_id):
+                            session.modified = True
+                            item['quantity'] += 1
                 else:
                     session['Shoppingcart'] = MagerDicts(session['Shoppingcart'], DictItems)
                     return redirect(request.referrer)
@@ -103,10 +102,10 @@ def delete_item(id):
         return redirect(url_for('get_cart'))
 
 
-@app.route('/empty')
-def empty_cart():
+@app.route('/clearcart')
+def clear_cart():
     try:
-        session.clear()
+        session.pop('Shoppingcart', None)
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
