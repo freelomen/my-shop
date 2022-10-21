@@ -3,7 +3,7 @@ import secrets
 
 from flask import redirect, session, render_template, url_for, flash, request, current_app
 
-from shop.__init__ import db, app, photos
+from shop.__init__ import db, app, photos, search
 from shop.products.forms import Addproducts
 from shop.products.models import Brand, Category, Addproduct
 
@@ -23,8 +23,15 @@ def home():
     products = Addproduct.query.filter(Addproduct.stock > 0).order_by(Addproduct.id.desc()).\
         paginate(page=page, per_page=8)
 
-    return render_template('products/index.html', title="Home page", products=products,
+    return render_template('products/index.html', title="Главная", products=products,
                            brands=brands(), categories=categories())
+
+
+@app.route('/result')
+def result():
+    searchword = request.args.get('q')
+    products = Addproduct.query.msearch(searchword, fields=['name', 'description'], limit=6)
+    return render_template('products/result.html', products=products, brands=brands(), categories=categories())
 
 
 @app.route('/product/<int:id>')
