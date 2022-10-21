@@ -6,6 +6,7 @@ from flask import redirect, session, render_template, url_for, flash, request, c
 from shop.__init__ import db, app, photos
 from shop.products.forms import Addproducts
 from shop.products.models import Brand, Category, Addproduct
+from shop.products.routes import brands, categories
 
 
 def MagerDicts(dict1, dict2):
@@ -62,12 +63,13 @@ def get_cart():
         tax = ("%.2f" % (.06 * float(subtotal)))
         grand_total = float("%.2f" % (1.06 * subtotal))
 
-    return render_template('products/carts.html', tax=tax, grand_total=grand_total)
+    return render_template('products/carts.html', tax=tax, grand_total=grand_total, brands=brands(),
+                           categories=categories())
 
 
 @app.route('/updatecart/<int:code>', methods=['POST'])
 def update_cart(code):
-    if 'Shoppingcart' not in session and len(session['Shoppingcart']) <= 0:
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
         return redirect(url_for('home'))
     if request.method == "POST":
         quantity = request.form.get('quantity')
@@ -84,6 +86,21 @@ def update_cart(code):
         except Exception as e:
             print(e)
             return redirect(url_for('get_cart'))
+
+
+@app.route('/deleteitem/<int:id>')
+def delete_item(id):
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, item in session['Shoppingcart'].items():
+            if int(key) == id:
+                session['Shoppingcart'].pop(key, None)
+                return redirect(url_for('get_cart'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('get_cart'))
 
 
 @app.route('/empty')
