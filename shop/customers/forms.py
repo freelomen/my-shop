@@ -7,9 +7,9 @@ from shop.customers.model import Register
 class CustomerRegisterForm(FlaskForm):
     name = StringField('Имя: ')
     username = StringField('Никнейм: ', [validators.DataRequired()])
-    email = StringField('Электронная почта: ', [validators.Email(), validators.DataRequired()])
+    email = StringField('Электронный адрес: ', [validators.Email(), validators.DataRequired()])
     password = PasswordField('Пароль: ', [validators.DataRequired(),
-                                            validators.EqualTo('confirm', message=' Both password must match! ')])
+                                            validators.EqualTo('confirm', message='Пароли должны совпадать')])
     confirm = PasswordField('Повторите пароль: ', [validators.DataRequired()])
     country = StringField('Страна: ', [validators.DataRequired()])
     city = StringField('Город: ', [validators.DataRequired()])
@@ -30,5 +30,5 @@ class CustomerRegisterForm(FlaskForm):
 
 
 class CustomerLoginForm(FlaskForm):
-    email = StringField('Электронная почта: ', [validators.Email(), validators.DataRequired()])
+    email = StringField('Электронный адрес: ', [validators.Email(), validators.DataRequired()])
     password = PasswordField('Пароль: ', [validators.DataRequired()])

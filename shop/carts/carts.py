@@ -1,12 +1,10 @@
-import os
-import secrets
-
 from flask import redirect, session, render_template, url_for, flash, request, current_app
 
 from shop.__init__ import db, app, photos
 from shop.products.forms import Addproducts
 from shop.products.models import Brand, Category, Addproduct
 from shop.products.routes import brands, categories
+import json
 
 
 def MagerDicts(dict1, dict2):

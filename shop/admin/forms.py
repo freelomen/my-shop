@@ -1,17 +1,19 @@
-from wtforms import Form, StringField, PasswordField, validators
+from wtforms import BooleanField, StringField, PasswordField, validators, ValidationError
+from flask_wtf import FlaskForm, Form
+from shop.admin.models import User
 
 
 class RegistrationForm(Form):
-    name = StringField('Name', [validators.Length(min=4, max=25)])
-    username = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email Address', [
+    name = StringField('Имя', [validators.Length(min=4, max=25)])
+    username = StringField('Никнейм', [validators.Length(min=4, max=25)])
+    email = StringField('Электронный адрес', [
         validators.Length(min=6, max=35), validators.Email()])
-    password = PasswordField('New Password', [
+    password = PasswordField('Новый пароль', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Repeat Password')
+        validators.EqualTo('confirm', message='Пароль должны совпадать')])
+    confirm = PasswordField('Повторите пароль')
 
 
 class LoginForm(Form):
-    email = StringField('Email', [validators.Length(min=6, max=35), validators.Email()])
-    password = PasswordField('Password', [validators.DataRequired()])
+    email = StringField('Электронный адрес', [validators.Length(min=6, max=35), validators.Email()])
+    password = PasswordField('Пароль', [validators.DataRequired()])
