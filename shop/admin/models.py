@@ -1,5 +1,4 @@
 from shop.__init__ import db
-from datetime import datetime
 
 
 class User(db.Model):
