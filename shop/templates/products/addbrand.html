@@ -1,28 +1,26 @@
 {% extends "layout.html" %}
-
 {% block content %}
-
-    <div class="container">
-        <div class="rov">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                {% include "_messages.html" %}
-                {% if brands %}
-                    <form action="" method="post">
-                        <h1 class="text-center mt-5">Add a brand</h1>
-                        <input type="text" name="brand" class="form-control">
-                        <input type="submit" value="Add brand" class="btn btn-info mt-2">
-                    </form>
-                {% else %}
-                    <form action="" method="post">
-                        <h1 class="text-center mt-5">Add a category</h1>
-                        <input type="text" name="category" class="form-control">
-                        <input type="submit" value="Add category" class="btn btn-info mt-2">
-                    </form>
-                {% endif %}
-            </div>
-            <div class="col-md-3"></div>
+{% include 'admin_navbar.html' %}
+<div class="container mt-3">
+    {% include "_messages.html" %}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+        {% if brands %}
+            <form action="" method="post">
+                <h1 class="text-center">Карточка бренда</h1>
+                <input type="text" name="brand" class="form-control">
+                <button type="submit" class="btn btn-info mt-2">Добавить</button>
+            </form>
+        {% else %}
+            <form action="" method="post">
+                <h1 class="text-center">Карточка категории</h1>
+                <input type="text" name="category" class="form-control">
+                <button type="submit" class="btn btn-info mt-2">Добавить</button>
+            </form>
+        {% endif %}
         </div>
+        <div class="col-md-3"></div>
     </div>
-
+</div>
 {% endblock content %}

@@ -3,8 +3,9 @@
 {% include 'navbar.html' %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6" id="big_image">
-            <img src="{{url_for('static',filename='images/' + product.image_1)}}" alt="{{product.name}}" width="385" height="385">
+        <div class="col-md-6 text-center" id="big_image">
+            <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
+                 style="object-fit: scale-down;" height="400px" width="400px">
         </div>
         <div class="col-md-6">
             <h4>Название: {{product.name}}</h4>
@@ -36,15 +37,18 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 mt-2" id="small_image">
+        <div class="col-md-6 text-center">
             <hr>
-            <img src="{{url_for('static',filename='images/'+ product.image_1)}}"
-                 alt="{{product.name}}" width="120" height="120">
-            <img src="{{url_for('static',filename='images/'+ product.image_2)}}"
-                 alt="{{product.name}}" width="120" height="120" class="ml-2">
-            <img src="{{url_for('static',filename='images/'+ product.image_3)}}"
-                 alt="{{product.name}}" width="120" height="120" class="ml-2">
+            <div class="col-md-12" id="small_image">
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
+                     style="object-fit: scale-down;" height="150px" width="150px">
+                <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}"
+                     style="object-fit: scale-down;" height="150px" width="150px">
+                <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}"
+                     style="object-fit: scale-down;" height="150px" width="150px">
+            </div>
         </div>
+        <div class="col-md-6"></div>
     </div>
 </div>
 <script>
@@ -57,7 +61,7 @@
 
     function full_image() {
         var ImageSRC = this.getAttribute('src');
-        big_image.innerHTML = "<img src=" + ImageSRC + " width='385' height='385'>";
+        big_image.innerHTML = "<img src="+ImageSRC+" width='400px' height='400px' style='object-fit: scale-down'>";
     }
 </script>
 {% endblock content %}

@@ -3,13 +3,13 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 
 class Addproducts(Form):
-    name = StringField('Name', [validators.DataRequired()])
-    price = FloatField('Price', [validators.DataRequired()])
-    discount = IntegerField('Discount', default=0)
-    stock = IntegerField('Stock', [validators.DataRequired()])
-    color = StringField('Color', [validators.DataRequired()])
-    description = TextAreaField('Description', [validators.DataRequired()])
+    name = StringField('Название', [validators.DataRequired()])
+    price = FloatField('Стоимость', [validators.DataRequired()])
+    discount = IntegerField('Скидка', default=0)
+    stock = IntegerField('Количество', [validators.DataRequired()])
+    color = StringField('Цвета', [validators.DataRequired()])
+    description = TextAreaField('Описание', [validators.DataRequired()])
 
-    image_1 = FileField('Image 1', validators=[FileAllowed(['jpg','png','gif','jpeg'])])
-    image_2 = FileField('Image 2', validators=[FileAllowed(['jpg','png','gif','jpeg'])])
-    image_3 = FileField('Image 3', validators=[FileAllowed(['jpg','png','gif','jpeg'])])
+    image_1 = FileField('Первое изображение', validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'])])
+    image_2 = FileField('Второе изображение', validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'])])
+    image_3 = FileField('Третье изображение', validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'])])

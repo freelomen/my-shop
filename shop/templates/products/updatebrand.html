@@ -1,28 +1,40 @@
 {% extends "layout.html" %}
-
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                {% include "_messages.html" %}
-                {% if updatebrand %}
-                    <form action="" method="POST">
-                        <h1 class="text-center mt-5">Update a brand</h1>
-                        <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}">
-                        <input type="submit" value="Update brand" class="btn btn-info mt-2">
-                        <a class="btn btn-warning mt-2" href="{{url_for('brands')}}">Cancel</a>
-                    </form>
-                {% else %}
-                    <form action="" method="POST">
-                        <h1 class="text-center mt-5">Update a category</h1>
-                        <input type="text" name="category" class="form-control" value="{{updatecategory.name}}">
-                        <input type="submit" value="Update category" class="btn btn-info mt-2">
-                        <a class="btn btn-warning mt-2" href="{{url_for('brands')}}">Cancel</a>
-                    </form>
-                {% endif %}
-            </div>
-            <div class="col-md-3"></div>
+{% include 'admin_navbar.html' %}
+<div class="container mt-3">
+    {% include "_messages.html" %}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            {% if updatebrand %}
+                <form action="" method="POST">
+                    <h1 class="text-center">Изменить бренд</h1>
+                    <input type="text" name="brand" class="form-control" value="{{updatebrand.name}}">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <input type="submit" value="Да" class="btn btn-info float-right">
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-warning" href="{{url_for('brands')}}">Нет</a>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <form action="" method="POST">
+                    <h1 class="text-center">Изменить категорию</h1>
+                    <input type="text" name="category" class="form-control" value="{{updatecategory.name}}">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <input type="submit" value="Да" class="btn btn-info float-right">
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-warning" href="{{url_for('categories')}}">Нет</a>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
         </div>
+        <div class="col-md-3"></div>
     </div>
+</div>
 {% endblock content %}

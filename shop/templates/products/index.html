@@ -7,8 +7,8 @@
             {% for item in brand.items %}
                 <div class="col-md-3 mt-3">
                     <div class="card">
-                        <img src="{{url_for('static', filename='images/' + item.image_1)}}"
-                             alt="{{item.name}}" class="card-img-top" height="250">
+                        <img src="{{url_for('static', filename='images/' + item.image_1)}}" alt="{{item.name}}"
+                             class="card-img-top" style="object-fit: scale-down; padding: 20px" height="250px">
                         <div class="card-body">
                             {% if item.discount > 0 %}
                                 <h5 style="text-shadow: 1px 1px 1px black; color: #f7ff00; transform:
@@ -77,8 +77,8 @@
             {% for item in category.items %}
                 <div class="col-md-3 mt-3">
                     <div class="card">
-                        <img src="{{url_for('static', filename='images/' + item.image_1)}}"
-                                                        alt="{{item.name}}" class="card-img-top" height="250">
+                        <img src="{{url_for('static', filename='images/' + item.image_1)}}" alt="{{item.name}}"
+                             class="card-img-top" style="object-fit: scale-down; padding: 20px" height="250px">
                         <div class="card-body">
                             {% if item.discount > 0 %}
                                 <h5 style="text-shadow: 1px 1px 1px black; color: #f7ff00; transform:
@@ -148,7 +148,7 @@
                 <div class="col-md-3 mt-3">
                     <div class="card">
                         <img src="{{url_for('static', filename='images/' + product.image_1)}}"
-                             alt="{{product.name}}" class="card-img-top" height="250">
+                             alt="{{product.name}}" class="card-img-top" style="object-fit: scale-down; padding: 20px" height="250px">
                         <div class="card-body">
                             {% if product.discount > 0 %}
                                 <h5 style="text-shadow: 1px 1px 1px black; color: #f7ff00; transform: rotate(-15deg);
