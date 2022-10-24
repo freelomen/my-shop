@@ -3,53 +3,79 @@
 {% include 'navbar.html' %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 text-center" id="big_image">
-            <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
-                 style="object-fit: scale-down;" height="400px" width="400px">
-        </div>
-        <div class="col-md-6">
-            <h4>Название: {{product.name}}</h4>
-            <hr>
-            <p>Цена: {{product.price}} руб.</p>
-            {% if product.discount > 0 %}
-                <p>Скидка: {{product.discount}}%</p>
-            {% endif %}
-            <hr>
-            <p>Описание:</p>
-            <p>{{product.description}}</p>
-            <hr>
-            <form action="{{url_for('AddCart')}}" method="POST">
-                <input type="hidden" name="product_id" value="{{product.id}}">
-                <button type="submit" class="btn btn-sm btn-warning">Купить</button>
-
-                <label for="">Количество: </label>
-                <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
-
-                {% set colors = product.color.split(',') %}
-                <label for="">Цвет: </label>
-                <select name="colors" id="">
-                    {% for color in colors %}
-                        {% set col = color.split(':') %}
-                        <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-6 text-center">
+            <div id="big_image">
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
+                     style="object-fit: scale-down;" height="400px" width="500px">
+            </div>
             <hr>
             <div class="col-md-12" id="small_image">
                 <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"
-                     style="object-fit: scale-down;" height="150px" width="150px">
+                     style="object-fit: scale-down;" height="100px" width="100px">
                 <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}"
-                     style="object-fit: scale-down;" height="150px" width="150px">
+                     style="object-fit: scale-down; margin-left: 50px; margin-right: 50px" height="100px" width="100px">
                 <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}"
-                     style="object-fit: scale-down;" height="150px" width="150px">
+                     style="object-fit: scale-down;" height="100px" width="100px">
             </div>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <h2 style="margin: 0">{{product.name}}</h2>
+            <hr>
+            <h4 style="margin: 0">Характеристики:</h4>
+            <p style="margin: 0; white-space: pre">{{product.description}}</p>
+            <hr>
+            {% if product.discount > 0 %}
+                <s>{{product.price}} Р</s>
+            {% endif %}
+            {% set discount = "%0.2f"|format((product.discount/100) * product.price|float) %}
+            {% set subtotal = product.price|float %}
+            <h3 style="margin: 0">{{ "%0.2f"|format((subtotal|float) - discount|float) }} Р</h3>
+            <hr>
+            <form action="{{url_for('AddCart')}}" method="POST">
+                <div class="row col-md-12"><input type="hidden" name="product_id" value="{{product.id}}"></div>
+                <div class="row" style="display: flex; align-items: center">
+                    <div class="col-md-3">
+                        <label style="margin: 0 15px 0 0" for=""><b>Количество:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+                    </div>
+                </div>
+                <div class="row mt-2" style="display: flex; align-items: center">
+                    <div class="col-md-3">
+                        {% set colors = product.color.split(',') %}
+                        <label style="margin: 0 15px 0 0" for=""><b>Цвет:</b></label>
+                    </div>
+                    <div class="col-md-9">
+                        <select name="colors" id="">
+                        {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0]|capitalize}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row col-md-12">
+                    <button type="submit" class="btn btn-info"><h5 style="margin: 0">Купить</h5></button>
+                </div>
+            </form>
+        </div>
     </div>
+<!--    <div class="row">-->
+<!--        <div class="col-md-6 text-center">-->
+<!--            <hr>-->
+<!--            <div class="col-md-12" id="small_image">-->
+<!--                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}"-->
+<!--                     style="object-fit: scale-down;" height="100px" width="100px">-->
+<!--                <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}"-->
+<!--                     style="object-fit: scale-down; margin-left: 50px; margin-right: 50px" height="100px" width="100px">-->
+<!--                <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}"-->
+<!--                     style="object-fit: scale-down;" height="100px" width="100px">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-6"></div>-->
+<!--    </div>-->
 </div>
 <script>
     var big_image = document.getElementById('big_image');
@@ -61,7 +87,7 @@
 
     function full_image() {
         var ImageSRC = this.getAttribute('src');
-        big_image.innerHTML = "<img src="+ImageSRC+" width='400px' height='400px' style='object-fit: scale-down'>";
+        big_image.innerHTML = "<img src="+ImageSRC+" width='500px' height='400px' style='object-fit: scale-down'>";
     }
 </script>
 {% endblock content %}

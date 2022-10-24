@@ -2,6 +2,7 @@ import os
 import secrets
 
 from flask import redirect, session, render_template, url_for, flash, request, current_app
+from flask_login import login_required
 
 from shop.__init__ import db, app, photos, search
 from shop.products.forms import Addproducts
@@ -171,7 +172,7 @@ def addbrand():
         flash(f'Бренд "{getbrand}" был добавлен', 'success')
         db.session.commit()
 
-        return redirect(url_for('addbrand'))
+        return redirect(url_for('brands'))
 
     return render_template('products/addbrand.html', title="Добавить товар", brands='brands')
 
@@ -181,9 +182,9 @@ def updatebrand(id):
     updatebrand = Brand.query.get_or_404(id)
     brand = request.form.get('brand')
     if request.method == "POST":
+        flash(f'Бренд "{updatebrand.name}" изменен на "{brand}"', 'success')
         updatebrand.name = brand
         db.session.commit()
-        flash(f'Бренд "{updatebrand.name}" изменен на "{brand}"', 'success')
 
         return redirect(url_for('brands'))
 
@@ -214,7 +215,7 @@ def addcategory():
         flash(f'Категория "{getcategory}" была добавлена', 'success')
         db.session.commit()
 
-        return redirect(url_for('addcategory'))
+        return redirect(url_for('categories'))
 
     return render_template('products/addbrand.html', title='Добавить категорию')
 

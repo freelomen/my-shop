@@ -1,76 +1,88 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% include 'navbar.html' %}
-<div class="container mt-4">
+<div class="container mt-3">
     {% include '_messages.html' %}
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-sm">
-                <thead>
-                    <th>№</th>
-                    <th>Изображение</th>
-                    <th>Название</th>
-                    <th>Цвет</th>
-                    <th>Цена</th>
-                    <th>Количество</th>
-                    <th>Скидка</th>
-                    <th>Итог</th>
-                    <th>Изменить</th>
-                    <th>Удалить</th>
-                </thead>
-                <tbody>
-                    {% for key, product in session['Shoppingcart'].items() %}
-                    {% set discount = "%0.2f"|format((product.discount/100) * product.price|float) %}
-                    <tr>
-                        <td>{{loop.index}}</td>
-                        <td>
-                            <img src="{{url_for('static',filename='images/'+ product.image)}}"
-                                 alt="{{product.name}}" width="45" height="45">
-                        </td>
-                        <td>{{product.name}}</td>
-                        <form action="{{url_for('update_cart', code=key)}}" method="POST">
-                            <td>
-                                {% set colors = product.colors.split(',') %}
-                                <label for="colors">Colors: </label>
-                                <select name="color" id="color">
-                                    <option value="{{product.color}}" style="display: none">
-                                        {{product.color|capitalize}}
-                                    </option>
-                                    {% for color in colors %}
-                                    {% set col = color.split(':') %}
-                                    <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>{{"%.2f"|format(product.price)}}</td>
-                            <td><input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
-                            {% if product.discount > 0 %}
-                            <td>{{product.discount}}% &nbsp; {{discount}}</td>
-                            {% else %}
-                            <td></td>
-                            {% endif %}
-                            {% set subtotal = product.quantity|int * product.price|float %}
-                            <td>{{ "%0.2f"|format((subtotal|float) - discount|float) }}</td>
-                            <td><button type="submit" class="btn btn-sm btn-info">Изменить</button></td>
-                        </form>
-                        <td><a href="{{url_for('delete_item', id=key)}}" class="btn btn-sm btn-danger">Удалить</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <table class="table table-sm">
-                <tr>
-                    <td><a href="{{url_for('get_order')}}" class="btn btn-sm btn-warning">Оформить заказ</a></td>
-                    <td width="35%"></td>
-                    <td>Налог: {{tax}} руб.</td>
-                    <td>Всего: {{grand_total}} руб.</td>
-                    <td>
-                        <a href="{{url_for('clear_cart')}}" class="btn btn-sm btn-danger float-right mr-3">
-                            Очистить корзину
-                        </a>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <th>№</th>
+            <th></th>
+            <th>Название</th>
+            <th>Цвет</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Скидка</th>
+            <th>Итог</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+        {% for key, product in session['Shoppingcart'].items() %}
+            <tr>
+                <td style="vertical-align: middle;">{{loop.index}}</td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <img src="{{url_for('static',filename='images/' + product.image)}}" alt="{{product.name}}"
+                         height="50px" width="50px" style="object-fit: scale-down">
+                </td>
+                <td style="vertical-align: middle;">{{product.name}}</td>
+                <form action="{{url_for('update_cart', code=key)}}" method="POST">
+                    <td style="vertical-align: middle;">
+                        {% set colors = product.colors.split(',') %}
+                        <select name="color" id="color">
+                            <option value="{{product.color}}" style="display: none">
+                                {{product.color|capitalize}}
+                            </option>
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                            {% endfor %}
+                        </select>
                     </td>
-                </tr>
-            </table>
+                    <td style="vertical-align: middle;">{{"%.2f"|format(product.price)}}</td>
+                    <td style="vertical-align: middle;"><input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"></td>
+                    {% set discount = "%0.2f"|format((product.discount/100) * product.price|float) %}
+                {% if product.discount > 0 %}
+                    <td style="vertical-align: middle;">{{discount}}</td>
+                {% else %}
+                    <td style="vertical-align: middle;"></td>
+                {% endif %}
+                    {% set subtotal = product.quantity|int * product.price|float %}
+                    <td style="vertical-align: middle;">{{ "%0.2f"|format((subtotal|float) - discount|float) }}</td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <button type="submit" class="btn">
+                            <img src="{{url_for('static',filename='images/ic_edit.svg')}}" height="20px" alt="">
+                        </button>
+                    </td>
+                </form>
+                <td style="text-align: center; vertical-align: middle;">
+                    <a href="{{url_for('delete_item', id=key)}}">
+                        <img src="{{url_for('static',filename='images/ic_delete.svg')}}" height="20px" alt="">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{{url_for('get_order')}}" class="btn btn-sm btn-info float-right">
+                Оформить заказ
+            </a>
+        </div>
+        <div class="col-md-3" style="display: flex; align-items: center; justify-content: center">
+            <p style="margin: 0">
+                Налог: {{tax}} Р
+            </p>
+        </div>
+        <div class="col-md-3" style="display: flex; align-items: center; justify-content: center">
+            <p style="margin: 0;">
+                Всего: {{grand_total}} Р
+            </p>
+        </div>
+        <div class="col-md-3">
+            <a href="{{url_for('clear_cart')}}" class="btn btn-sm btn-danger">
+                Очистить корзину
+            </a>
         </div>
     </div>
 </div>

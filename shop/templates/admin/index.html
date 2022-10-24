@@ -20,7 +20,7 @@
                 <td style="vertical-align: middle;">{{loop.index}}</td>
                 <td style="text-align: center; vertical-align: middle;">
                     <img src="{{url_for('static',filename='images/' + product.image_1)}}" alt="{{product.name}}"
-                         height="30px">
+                         height="50px" width="50px" style="object-fit: scale-down">
                 </td>
                 <td style="vertical-align: middle;">{{ product.name }}</td>
                 <td style="vertical-align: middle;">{{ product.price }}</td>

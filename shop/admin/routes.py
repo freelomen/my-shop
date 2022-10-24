@@ -20,11 +20,6 @@ def admin():
 
 @app.route('/brands')
 def brands():
-    if 'email' not in session:
-        flash(f'Сначала войдите в систему', 'danger')
-
-        return redirect(url_for('login'))
-
     brands = Brand.query.order_by(Brand.id.desc()).all()
 
     return render_template('admin/brand.html', title="Бренды", brands=brands)
@@ -32,11 +27,6 @@ def brands():
 
 @app.route('/categories')
 def categories():
-    if 'email' not in session:
-        flash(f'Сначала войдите в систему', 'danger')
-
-        return redirect(url_for('login'))
-
     categories = Category.query.order_by(Category.id.desc()).all()
 
     return render_template('admin/brand.html', title="Категории", categories=categories)

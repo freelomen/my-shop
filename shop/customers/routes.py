@@ -8,6 +8,7 @@ from flask_login import login_required, current_user, logout_user, login_user
 from shop.__init__ import app, db, bcrypt
 from shop.customers.forms import CustomerRegisterForm, CustomerLoginForm
 from shop.customers.model import Register, CustomerOrder
+from shop.products.routes import brands, categories
 
 buplishable_key =\
     'pk_test_51Lve88Jmd0r3Xv99ufojf0bxq0P3NLyX5TgyHO1lpQSkWAaTFoiqnqVyMxpHzS49pVOvkTyTaVozTqg9CzY34iH400QDouRKF6'
@@ -34,12 +35,9 @@ def payment():
         order_by(CustomerOrder.id.desc()).first()
     orders.status = 'Оплачено'
     db.session.commit()
-    return redirect(url_for('thanks'))
+    flash(f'Оплата прошла успешно', 'success')
 
-
-@app.route('/thanks')
-def thanks():
-    return render_template('customer/thank.html')
+    return redirect(url_for('orders', invoice=invoice))
 
 
 @app.route('/customer/register', methods=['GET', 'POST'])
@@ -53,8 +51,10 @@ def customer_register():
         db.session.add(register)
         flash(f'Добро пожаловать, {form.name.data}, спасибо за регистрацию!', 'success')
         db.session.commit()
+
         return redirect(url_for('customerLogin'))
-    return render_template('customer/register.html', form=form)
+
+    return render_template('customer/register.html', title="Регистрация", form=form)
 
 
 @app.route('/customer/login', methods=['GET', 'POST'])
@@ -69,7 +69,7 @@ def customerLogin():
             return redirect(next or url_for('home'))
         flash('Вы неправильно ввели логин или пароль', 'danger')
         return redirect(url_for('customerLogin'))
-    return render_template('customer/login.html', form=form)
+    return render_template('customer/login.html', title="Вход", form=form)
 
 
 @app.route('/customer/logout')
@@ -124,8 +124,10 @@ def orders(invoice):
             grand_total = ("%.2f" % (1.06 * float(subtotal)))
     else:
         return redirect(url_for('customerLogin'))
-    return render_template('customer/order.html', invoice=invoice, tax=tax, subtotal=subtotal, grand_total=grand_total,
-                           customer=customer, orders=orders)
+
+    return render_template('customer/order.html', title="Карточка заказа", invoice=invoice, tax=tax, subtotal=subtotal,
+                           grand_total=grand_total, customer=customer, orders=orders, brands=brands(),
+                           categories=categories())
 
 
 @app.route('/get_pdf/<invoice>', methods=['POST'])
